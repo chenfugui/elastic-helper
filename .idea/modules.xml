@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elastic-helper.iml" filepath="$PROJECT_DIR$/.idea/modules/elastic-helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elastic-helper_main.iml" filepath="$PROJECT_DIR$/.idea/modules/elastic-helper_main.iml" group="elastic-helper" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elastic-helper_test.iml" filepath="$PROJECT_DIR$/.idea/modules/elastic-helper_test.iml" group="elastic-helper" />
+    </modules>
+  </component>
+</project>

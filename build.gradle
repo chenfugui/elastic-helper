@@ -1,0 +1,124 @@
+group 'com.elastic'
+version '1.0-SNAPSHOT'
+// gradle插件
+buildscript {
+    repositories {
+        maven {
+            url "https://jcenter.bintray.com"
+        }
+        mavenLocal()
+    }
+    dependencies {
+        // 远程布署插件
+        classpath 'org.hidetake:gradle-ssh-plugin:1.0.1'
+        // web容器，支持jetty和tomcat
+        classpath 'org.akhikhl.gretty:gretty:1.2.0' }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven'
+    group = 'tlz.dm'
+    version = '1.0'
+// 全局属性设置
+    ext {
+        junitVersion = '4.11'
+        springVersion = '3.0.5.RELEASE'
+// java文件编码方式设置为utf-8
+        compileJava.options.encoding = 'UTF-8'
+        compileTestJava.options.encoding = 'UTF-8'
+    }
+}
+
+//把java目录下的所有文件打进jar包 默认只打包java文件
+processResources {
+    from('src/main/java') {
+        include '**/*.properties'
+        include '**/*.xml'
+        include '**/*.json'
+    }
+}
+
+sourceCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    maven {
+        url "https://jcenter.bintray.com"
+    }
+    mavenLocal()
+    maven { url "http://maven.oschina.net/content/groups/public/"  }
+    maven { url "https://repository.cloudera.com/artifactory/cloudera-repos/" }
+    maven { url "https://maven.java.net/content/repositories/snapshots/" }
+}
+
+ext{
+    cdhSparkVersion='1.6.0-cdh5.8.0'
+    cdhHadoopVersion='2.6.0-cdh5.8.0'
+    cdhHiveVersion='1.1.0-cdh5.8.0'
+    cdhHbaseVersion='1.2.0-cdh5.8.0'
+    cdhMahoutVersion='0.9-cdh5.8.0'
+    cdhZKVersion='3.4.5-cdh5.8.0'
+}
+
+dependencies {
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    //compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-pool2
+    compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.4.2'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2
+    compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.1.1'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
+    testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    // https://mvnrepository.com/artifact/log4j/log4j
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    // https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    // https://mvnrepository.com/artifact/org.elasticsearch.client/transport
+    compile group: 'org.elasticsearch.client', name: 'transport', version: '5.5.1'
+    // https://mvnrepository.com/artifact/com.alibaba/fastjson
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.36'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+
+
+
+
+
+
+
+
+
+}
+
+jar {
+    zip64 true
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+    manifest {
+        attributes(
+                "Manifest-Version": "1.0",
+                'Main-Class': 'tlz.dm.mqexecute.RecommendMqExcute',
+                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+        )
+    }
+    archiveName="recommend-"+"${version}.jar"
+    //指定包含的文件
+    //include xxx.x
+    //jar包含所有依赖
+    /*into("/") {
+        from configurations.runtime
+    }*/
+
+
+}

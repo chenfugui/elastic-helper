@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<es>
+<test>123</test>
+	<cluster>
+		<name>EScluster</name>
+		<servicenode>
+			<hostname>slave05.hadoop.tlz</hostname>
+			<transport>
+				<tpc>
+					<port>9300</port>
+				</tpc>
+			</transport>
+		</servicenode>
+		<servicenode>
+			<hostname>slave06.hadoop.tlz</hostname>
+			<transport>
+				<tpc>
+					<port>9300</port>
+				</tpc>
+			</transport>
+		</servicenode>
+		<servicenode>
+			<hostname>slave07.hadoop.tlz</hostname>
+			<transport>
+				<tpc>
+					<port>9300</port>
+				</tpc>
+			</transport>
+		</servicenode>
+	</cluster>
+</es>
